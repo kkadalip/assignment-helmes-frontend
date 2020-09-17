@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  assignmentui:
+    container_name: assignment-ui
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - 3000:3000
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
