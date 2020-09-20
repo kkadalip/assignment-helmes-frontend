@@ -24,6 +24,7 @@ function Page() {
 	const keyLocalStorageSelectedLanguage = 'SelectedLanguage';
 	const keyLocalStorageAgreedToTerms = 'AgreedToTerms';
 
+	let [id, setId] = useState(0);
 	let [username, setUsername] = useState("");
 	let [isLoadingSectors, setIsLoadingSectors] = useState(true);
 	let [sectors, setSectors] = useState([]);
