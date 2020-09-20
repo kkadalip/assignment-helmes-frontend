@@ -9,6 +9,10 @@
 		"agreed-to-terms": "Agreed to terms",
 		"save": "Save"
 	},
+	"alert": {
+		"data-saved": "Data saved!",
+		"failed": "Failed to save data!"
+	},
 	"sector": {
 		"manufacturing": "Manufacturing",
 		"construction-materials": "Construction materials",

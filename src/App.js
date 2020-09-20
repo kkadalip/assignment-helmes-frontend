@@ -20,6 +20,10 @@ function Page() {
 		{label: 'Eesti', value: 'et'}
 	];
 
+	const keyLocalStorageUsername = 'Username';
+	const keyLocalStorageSelectedLanguage = 'SelectedLanguage';
+	const keyLocalStorageAgreedToTerms = 'AgreedToTerms';
+
 	let [id, setId] = useState(123); // TODO
 	let [username, setUsername] = useState("");
 	let [isLoadingSectors, setIsLoadingSectors] = useState(true);
@@ -28,18 +32,37 @@ function Page() {
 	let [agreedToTerms, setAgreedToTerms] = useState(false);
 
 	useEffect(() => {
-		const savedLanguage = localStorage.getItem('SelectedLanguage') || 'en';
+		const savedLanguage = localStorage.getItem(keyLocalStorageSelectedLanguage) || 'en';
 		changeLanguage(savedLanguage);
+
+		const savedUsername = localStorage.getItem(keyLocalStorageUsername) || "";
+		changeUsername(savedUsername);
+
 		getSectors();
+
+		const savedAgreedToTerms = JSON.parse(localStorage.getItem(keyLocalStorageAgreedToTerms)) || false;
+		changeAgreedToTerms(savedAgreedToTerms);
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const {t, i18n} = useTranslation();
 	const changeLanguage = lng => {
 		i18n.changeLanguage(lng).then(() => {
-					localStorage.setItem('SelectedLanguage', lng);
+					localStorage.setItem(keyLocalStorageSelectedLanguage, lng);
 				}
 		);
+	};
+
+	const changeUsername = username => {
+		setUsername(username);
+		localStorage.setItem(keyLocalStorageUsername, username);
+	};
+
+	const changeAgreedToTerms = checked => {
+		console.log("Change agreed terms to: " + checked);
+		setAgreedToTerms(checked);
+		localStorage.setItem(keyLocalStorageAgreedToTerms, checked);
 	};
 
 	const getSectors = () => {
@@ -57,7 +80,8 @@ function Page() {
 	};
 
 	const handleChangeUsername = (event) => {
-		setUsername(event.target.value.trim());
+		let value = event.target.value.trim();
+		changeUsername(value);
 	};
 
 	const handleChangeSelect = (event) => {
@@ -68,7 +92,8 @@ function Page() {
 	};
 
 	const handleChangeAgreedToTerms = (event) => {
-		setAgreedToTerms(event.target.checked);
+		let checked = event.target.checked;
+		changeAgreedToTerms(checked);
 	};
 
 	function createSectorsTable(items, currentlevel) {
@@ -98,9 +123,11 @@ function Page() {
 		})
 				.then(function (response) {
 					console.log(response);
+					alert(t('alert.data-saved'));
 				})
 				.catch(function (error) {
 					console.error(error);
+					alert(t('alert.failed'));
 				});
 	}
 
@@ -140,7 +167,7 @@ function Page() {
 							</div>
 							<div className="data-block">
 								<label>
-									<input type="checkbox" name="agreedToTerms" className="row-title" onChange={handleChangeAgreedToTerms} required/>
+									<input type="checkbox" checked={agreedToTerms} className="row-title" onChange={handleChangeAgreedToTerms} required/>
 									<span className="row-title unselectable">{t('content.agreed-to-terms')}</span>
 								</label>
 							</div>

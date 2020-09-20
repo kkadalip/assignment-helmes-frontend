@@ -28,6 +28,7 @@ body {
 	text-align: center;
 	display: inline-block;
 	padding: 0 20px 5px 20px;
+	min-width: 600px;
 }
 
 .title-and-main {

@@ -9,6 +9,10 @@
 		"agreed-to-terms": "Nõustun tingimustega",
 		"save": "Salvesta"
 	},
+	"alert": {
+		"data-saved": "Andmed salvestatud!",
+		"failed": "Andmete salvestamine ebaõnnestus!"
+	},
 	"sector": {
 		"manufacturing": "Tootmine",
 		"construction-materials": "Ehitusmaterjalid",
