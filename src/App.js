@@ -9,7 +9,7 @@ import {useTranslation} from 'react-i18next';
 import logo from './logo.svg';
 import './main.css';
 import axios from "axios/index";
-import i18n from "./translations/i18n";
+import i18n from "./translations/i18n"; // <- DO NOT DELETE
 
 function Page() {
 
@@ -20,18 +20,12 @@ function Page() {
 		{label: 'Eesti', value: 'et'}
 	];
 
-	const initialData = Object.freeze({
-		loadingSectors: true,
-		id: 0,
-		username: "",
-		// allSectors: [],
-		selectedSectors: [],
-		agreedToTerms: false
-	});
-	let [formData, setFormData] = useState(initialData);
-	let [isLoadingSectors, setIsLoadingSectors] = useState(initialData.loadingSectors);
-	// let [allSectors, setAllSectors] = useState(initialData.allSectors);
-	let [selectedSectors, setSelectedSectors] = useState(initialData.selectedSectors);
+	let [id, setId] = useState(123); // TODO
+	let [username, setUsername] = useState("");
+	let [isLoadingSectors, setIsLoadingSectors] = useState(true);
+	let [sectors, setSectors] = useState([]);
+	let [selectedSectors, setSelectedSectors] = useState([]);
+	let [agreedToTerms, setAgreedToTerms] = useState(false);
 
 	useEffect(() => {
 		const savedLanguage = localStorage.getItem('SelectedLanguage') || 'en';
@@ -53,9 +47,8 @@ function Page() {
 				.then(res => res.data)
 				.then(data => {
 							setIsLoadingSectors(false);
-							// setAllSectors(data);
-							setSelectedSectors(data);
-							// console.log("Sectors data is: ", data); // DEBUG
+							setSectors(data);
+							console.log("Sectors data is: ", data);
 						}
 				)
 				.catch((err) => {
@@ -63,35 +56,24 @@ function Page() {
 				}, [])
 	};
 
-	const handleChangeInput = (event) => {
-		console.log(formData);
-		setFormData({
-			...formData,
-			[event.target.name]: event.target.value.trim()
-		});
+	const handleChangeUsername = (event) => {
+		setUsername(event.target.value.trim());
 	};
 
 	const handleChangeSelect = (event) => {
 		let selectedOptions = [...event.target.options].filter(o => o.selected).map(o => o.value);
-		console.log("SELECTED SECTORS ARE " + JSON.stringify(selectedOptions));
-		setFormData({
-			...formData,
-			selectedSectors: selectedOptions
-		});
-		console.log(formData);
+		console.log("Selected sector ID-s: " + JSON.stringify(selectedOptions));
+		setSelectedSectors(selectedOptions);
+		console.log(JSON.stringify(selectedOptions));
 	};
 
-	const handleChangeCheckbox = (event) => {
-		setFormData({
-			...formData,
-			[event.target.name]: event.target.checked
-		});
-		// console.log(formData); // DEBUG
+	const handleChangeAgreedToTerms = (event) => {
+		setAgreedToTerms(event.target.checked);
 	};
 
-	const SectorsList = ({data}) => {
-		return <select multiple size="30" value={selectedSectors} onChange={handleChangeSelect}>
-			<React.Fragment>{createSectorsTable(data)}</React.Fragment>
+	const SectorsList = ({items}) => {
+		return <select multiple value={selectedSectors} size="30" name="sectors" onChange={handleChangeSelect} required>
+			<React.Fragment>{createSectorsTable(items)}</React.Fragment>
 		</select>
 	}
 
@@ -104,7 +86,7 @@ function Page() {
 					let hasChildSectors = item.childSectors && item.childSectors.length > 0;
 					let spacer = "\u00A0\u00A0\u00A0\u00A0".repeat(level);
 					return <React.Fragment key={index}>
-						<option key={item.id} value={item.id}>{spacer} {t(item.name)}</option>
+						<option value={item.id}>{spacer}{t(item.name)}</option>
 						{hasChildSectors && createSectorsTable(item.childSectors, level + 1)}
 					</React.Fragment>
 				}
@@ -112,18 +94,18 @@ function Page() {
 	}
 
 	const handleSubmit = event => {
-		console.log(formData);
+		console.log("Selected sectors are " + JSON.stringify(selectedSectors));
 		axios.post(apiRoot + 'save', {
-			id: formData.id,
-			username: formData.username,
-			selectedSectors: formData.selectedSectors,
-			agreedToTerms: formData.agreedToTerms
+			id: id,
+			username: username,
+			sectors: selectedSectors, //sectors, // TODO ONLY SELECTED SECTORS!
+			agreedToTerms: agreedToTerms
 		})
 				.then(function (response) {
 					console.log(response);
 				})
 				.catch(function (error) {
-					console.log(error);
+					console.error(error);
 				});
 		event.preventDefault()
 	}
@@ -151,19 +133,18 @@ function Page() {
 							<div className="data-block">
 								<label>
 									<span className="row-title unselectable">{t('content.name')}</span>
-									<input type="text" name="username" onChange={handleChangeInput}/>
+									<input type="text" value={username} onChange={handleChangeUsername} required/>
 								</label>
 							</div>
 							<div className="data-block">
 								<label>
 									<span className="row-title unselectable align-top">{t('content.sectors')}</span>
-									{/*<SectorsList data={allSectors}/>*/}
-									<SectorsList data={selectedSectors}/>
+									<SectorsList items={sectors}/>
 								</label>
 							</div>
 							<div className="data-block">
 								<label>
-									<input type="checkbox" name="agreedToTerms" className="row-title" onChange={handleChangeCheckbox}/>
+									<input type="checkbox" name="agreedToTerms" className="row-title" onChange={handleChangeAgreedToTerms} required/>
 									<span className="row-title unselectable">{t('content.agreed-to-terms')}</span>
 								</label>
 							</div>
