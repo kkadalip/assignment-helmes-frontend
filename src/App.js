@@ -61,32 +61,26 @@ function Page() {
 	};
 
 	const handleChangeSelect = (event) => {
+		event.preventDefault();
 		let selectedOptions = [...event.target.options].filter(o => o.selected).map(o => o.value);
-		console.log("Selected sector ID-s: " + JSON.stringify(selectedOptions));
 		setSelectedSectors(selectedOptions);
-		console.log(JSON.stringify(selectedOptions));
+		console.log("Selected sector ID-s: " + JSON.stringify(selectedOptions));
 	};
 
 	const handleChangeAgreedToTerms = (event) => {
 		setAgreedToTerms(event.target.checked);
 	};
 
-	const SectorsList = ({items}) => {
-		return <select multiple value={selectedSectors} size="30" name="sectors" onChange={handleChangeSelect} required>
-			<React.Fragment>{createSectorsTable(items)}</React.Fragment>
-		</select>
-	}
-
 	function createSectorsTable(items, currentlevel) {
 		let level = 0;
 		if (currentlevel !== undefined) {
 			level = currentlevel;
 		}
-		return items.map(function (item, index) {
+		return items.map(function (item) {
 					let hasChildSectors = item.childSectors && item.childSectors.length > 0;
 					let spacer = "\u00A0\u00A0\u00A0\u00A0".repeat(level);
-					return <React.Fragment key={index}>
-						<option value={item.id}>{spacer}{t(item.name)}</option>
+					return <React.Fragment key={'fragment-' + item.id}>
+						<option key={'option-' + item.id} value={item.id}>{spacer}{t(item.name)}</option>
 						{hasChildSectors && createSectorsTable(item.childSectors, level + 1)}
 					</React.Fragment>
 				}
@@ -94,6 +88,7 @@ function Page() {
 	}
 
 	const handleSubmit = event => {
+		event.preventDefault()
 		console.log("Selected sectors are " + JSON.stringify(selectedSectors));
 		axios.post(apiRoot + 'save', {
 			id: id,
@@ -107,7 +102,6 @@ function Page() {
 				.catch(function (error) {
 					console.error(error);
 				});
-		event.preventDefault()
 	}
 
 	return <div className="app">
@@ -125,25 +119,27 @@ function Page() {
 					<ProgressSpinner/>
 				</div>
 				<div hidden={isLoadingSectors} className="main">
-					<form onSubmit={handleSubmit}>
+					<form key="form-sectors" onSubmit={handleSubmit}>
 						<div className="main-content">
 							<div className="data-block">
 								<span className="unselectable">{t('content.please-enter-data')}</span>
 							</div>
 							<div className="data-block">
-								<label>
+								<label key="label-username">
 									<span className="row-title unselectable">{t('content.name')}</span>
 									<input type="text" value={username} onChange={handleChangeUsername} required/>
 								</label>
 							</div>
 							<div className="data-block">
-								<label>
-									<span className="row-title unselectable align-top">{t('content.sectors')}</span>
-									<SectorsList items={sectors}/>
+								<label key="label-sectors">
+									<span key="label-text-sectors" className="row-title unselectable align-top">{t('content.sectors')}</span>
+									<select key="sectors-list-select" multiple value={selectedSectors} size="30" name="sectors" onChange={handleChangeSelect} required>
+										<React.Fragment key="sectors-list-select-fragment">{createSectorsTable(sectors)}</React.Fragment>
+									</select>
 								</label>
 							</div>
 							<div className="data-block">
-								<label>
+								<label key="label-checkbox">
 									<input type="checkbox" name="agreedToTerms" className="row-title" onChange={handleChangeAgreedToTerms} required/>
 									<span className="row-title unselectable">{t('content.agreed-to-terms')}</span>
 								</label>
