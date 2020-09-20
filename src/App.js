@@ -93,7 +93,7 @@ function Page() {
 		axios.post(apiRoot + 'save', {
 			id: id,
 			username: username,
-			sectors: selectedSectors, //sectors, // TODO ONLY SELECTED SECTORS!
+			sectors: selectedSectors,
 			agreedToTerms: agreedToTerms
 		})
 				.then(function (response) {
@@ -119,27 +119,27 @@ function Page() {
 					<ProgressSpinner/>
 				</div>
 				<div hidden={isLoadingSectors} className="main">
-					<form key="form-sectors" onSubmit={handleSubmit}>
+					<form onSubmit={handleSubmit}>
 						<div className="main-content">
 							<div className="data-block">
 								<span className="unselectable">{t('content.please-enter-data')}</span>
 							</div>
 							<div className="data-block">
-								<label key="label-username">
+								<label>
 									<span className="row-title unselectable">{t('content.name')}</span>
 									<input type="text" value={username} onChange={handleChangeUsername} required/>
 								</label>
 							</div>
 							<div className="data-block">
-								<label key="label-sectors">
-									<span key="label-text-sectors" className="row-title unselectable align-top">{t('content.sectors')}</span>
-									<select key="sectors-list-select" multiple value={selectedSectors} size="30" name="sectors" onChange={handleChangeSelect} required>
-										<React.Fragment key="sectors-list-select-fragment">{createSectorsTable(sectors)}</React.Fragment>
+								<label>
+									<span className="row-title unselectable align-top">{t('content.sectors')}</span>
+									<select multiple value={selectedSectors} size="30" name="sectors" onChange={handleChangeSelect} required>
+										<React.Fragment>{createSectorsTable(sectors)}</React.Fragment>
 									</select>
 								</label>
 							</div>
 							<div className="data-block">
-								<label key="label-checkbox">
+								<label>
 									<input type="checkbox" name="agreedToTerms" className="row-title" onChange={handleChangeAgreedToTerms} required/>
 									<span className="row-title unselectable">{t('content.agreed-to-terms')}</span>
 								</label>
