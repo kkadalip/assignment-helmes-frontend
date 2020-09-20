@@ -4,8 +4,8 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import {ProgressSpinner} from 'primereact/progressspinner';
 import {SelectButton} from 'primereact/selectbutton';
+import {Button} from 'primereact/button';
 import {useTranslation} from 'react-i18next';
-import * as h from "./service/IndexHelper";
 import logo from './logo.svg';
 import './main.css';
 import axios from "axios/index";
@@ -18,29 +18,29 @@ function Page() {
 		localStorage.setItem('SelectedLanguage', lng);
 	};
 
+	const handleSubmit = event => {
+		alert("Form submitted!") // + this.state.value
+		event.preventDefault()
+	}
+
 	const langSelectItems = [
 		{label: 'English', value: 'en'},
 		{label: 'Eesti', value: 'et'}
 	];
 
 	const urlSectors = 'http://localhost:8090/api/sectors'
-	const urlVisitors = 'http://localhost:8090/api/visitors'
 
 	useEffect(() => {
 		const savedLanguage = localStorage.getItem('SelectedLanguage') || 'en';
 		changeLanguage(savedLanguage);
 		getSectors();
-		getVisitors();
 	}, []);
 
 	let [isLoadingSectors, setIsLoadingSectors] = useState(true);
-	let [isLoadingVisitors, setIsLoadingVisitors] = useState(true);
 	let [sectors, setSectors] = useState([]);
-	let [visitors, setVisitors] = useState([]);
 
 	const getSectors = () => {
 		axios.get(urlSectors)
-				// .then(res => res.data[res.data.length - 1])
 				.then(res => res.data)
 				.then(data => {
 							setIsLoadingSectors(false);
@@ -50,20 +50,6 @@ function Page() {
 				)
 				.catch((err) => {
 					console.error("Could not fetch Sectors data ", err);
-				}, [])
-	};
-
-	const getVisitors = () => {
-		axios.get(urlVisitors)
-				.then(res => res.data[res.data.length - 1])
-				.then(data => {
-							setIsLoadingVisitors(false);
-							setVisitors(h.getVisitors(data));
-							// console.log("Visitors data is: ", data);
-						}
-				)
-				.catch((err) => {
-					console.error("Could not fetch Visitors data", err);
 				}, [])
 	};
 
@@ -104,23 +90,34 @@ function Page() {
 					<ProgressSpinner/>
 				</div>
 				<div hidden={isLoadingSectors} className="main">
-					<div className="main-content">
-						<div className="data-block">
-							<span className="unselectable">{t('content.please-enter-data')}</span>
+					<form onSubmit={handleSubmit}>
+						<div className="main-content">
+							<div className="data-block">
+								<span className="unselectable">{t('content.please-enter-data')}</span>
+							</div>
+							<div className="data-block">
+								<label>
+									<span className="row-title unselectable">{t('content.name')}</span>
+									<input type="text"/>
+								</label>
+							</div>
+							<div className="data-block">
+								<label>
+									<span className="row-title unselectable align-top">{t('content.sectors')}</span>
+									<SectorsList data={sectors}/>
+								</label>
+							</div>
+							<div className="data-block">
+								<label>
+									<input type="checkbox" className="row-title"/>
+									<span className="row-title unselectable">{t('content.agree-to-terms')}</span>
+								</label>
+							</div>
+							<div className="submit-block">
+								<Button label="Submit"/>
+							</div>
 						</div>
-						<div className="data-block">
-							<span className="unselectable row-title">{t('content.name')}</span>
-							<input type="text"/>
-						</div>
-						<div className="data-block">
-							<span className="unselectable row-title">{t('content.sectors')}</span>
-							<SectorsList data={sectors}/>
-						</div>
-						<div className="data-block">
-							<input type="checkbox" className="row-title"/>
-							<span className="unselectable row-title">{t('content.agree-to-terms')}</span>
-						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>

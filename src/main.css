@@ -37,7 +37,7 @@ body {
 
 .main {
 	text-align: center;
-	padding: 10px;
+	padding: 20px;
 }
 
 .main-content {
@@ -58,8 +58,16 @@ body {
 	text-align: left;
 }
 
+.submit-block {
+	text-align: right;
+}
+
 .row-title {
 	margin-right: 5px;
+}
+
+.align-top {
+	vertical-align: top;
 }
 
 .select-language-button-wrapper {
