@@ -24,7 +24,6 @@ function Page() {
 	const keyLocalStorageSelectedLanguage = 'SelectedLanguage';
 	const keyLocalStorageAgreedToTerms = 'AgreedToTerms';
 
-	let [id, setId] = useState(123); // TODO
 	let [username, setUsername] = useState("");
 	let [isLoadingSectors, setIsLoadingSectors] = useState(true);
 	let [sectors, setSectors] = useState([]);
@@ -54,9 +53,9 @@ function Page() {
 		);
 	};
 
-	const changeUsername = username => {
-		setUsername(username);
-		localStorage.setItem(keyLocalStorageUsername, username);
+	const changeUsername = name => {
+		setUsername(name);
+		localStorage.setItem(keyLocalStorageUsername, name);
 	};
 
 	const changeAgreedToTerms = checked => {
@@ -74,7 +73,7 @@ function Page() {
 							console.log("Sectors data is: ", data);
 						}
 				)
-				.catch((err) => {
+				.catch(err => {
 					console.error("Could not fetch Sectors data ", err);
 				}, [])
 	};
@@ -125,8 +124,8 @@ function Page() {
 					console.log(response);
 					alert(t('alert.data-saved'));
 				})
-				.catch(function (error) {
-					console.error(error);
+				.catch(err => {
+					console.error(err);
 					alert(t('alert.failed'));
 				});
 	}
