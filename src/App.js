@@ -89,11 +89,12 @@ function Page() {
 		);
 	}
 
-	return <div className="App">
-		<SelectButton value={i18n.language} options={langSelectItems} onChange={(e) => changeLanguage(e.value)}
-		              className='select-language-button'/>
-		<div id="floating-box-main" className="floating-box">
-			<div className={"title-and-main"}>
+	return <div className="app">
+		<div className="lang-title-and-main">
+			<div className="select-language-button-wrapper">
+				<SelectButton value={i18n.language} options={langSelectItems} onChange={(e) => changeLanguage(e.value)} className='select-language-button'/>
+			</div>
+			<div className="title-and-main">
 				<header>
 					<div className="unselectable title-big">
 						<span>{t('title.main')}</span>
@@ -102,8 +103,24 @@ function Page() {
 				<div hidden={!isLoadingSectors}>
 					<ProgressSpinner/>
 				</div>
-				<div hidden={isLoadingSectors} className="sectors-wrapper">
-					<SectorsList data={sectors}/>
+				<div hidden={isLoadingSectors} className="main">
+					<div className="main-content">
+						<div className="data-block">
+							<span className="unselectable">{t('content.please-enter-data')}</span>
+						</div>
+						<div className="data-block">
+							<span className="unselectable row-title">{t('content.name')}</span>
+							<input type="text"/>
+						</div>
+						<div className="data-block">
+							<span className="unselectable row-title">{t('content.sectors')}</span>
+							<SectorsList data={sectors}/>
+						</div>
+						<div className="data-block">
+							<input type="checkbox" className="row-title"/>
+							<span className="unselectable row-title">{t('content.agree-to-terms')}</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -111,7 +128,7 @@ function Page() {
 }
 
 const Loader = () => (
-		<div className="App">
+		<div className="app">
 			<img src={logo} className="App-logo" alt="logo"/>
 			<div>loading...</div>
 		</div>

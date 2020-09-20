@@ -1,86 +1,71 @@
 * {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    margin: 0;
-    padding: 0;
-    background: rgb(239, 239, 239);
-    color: rgb(0, 0, 0);
-    text-align: center;
-}
-
-body .pi {
-    font-size: 1em;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	padding: 0;
+	background: rgb(239, 239, 239);
+	color: rgb(0, 0, 0);
 }
 
 .unselectable {
-    -webkit-user-select: none; /* Chrome/Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+ */
-    -o-user-select: none;
-    user-select: none;
+	-webkit-user-select: none; /* Chrome/Safari */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+	-o-user-select: none;
+	user-select: none;
 }
 
-.title-big {
-    background-color: rgb(61, 61, 61);
-    color: white;
-    padding: 10px 10px;
-    margin: 0;
-    font-size: 1.5em;
-    font-weight: bolder;
+.app {
+	text-align: center;
 }
 
-.floating-box {
-    display: inline-block;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-#floating-box-top {
-    margin: 20px 10px 5px 10px;
-    font-size: 22px;
-}
-
-#floating-box-top p {
-    margin: 10px;
-}
-
-#floating-box-main {
-    text-align: center;
-    padding: 0 0 5px 0;
-    margin: 20px 30px 25px 30px;
+.lang-title-and-main {
+	margin: auto;
+	text-align: center;
+	display: inline-block;
+	padding: 0 20px 5px 20px;
 }
 
 .title-and-main {
-    background: rgb(255, 255, 255);
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+	background: rgb(255, 255, 255);
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
-.sectors-wrapper {
-    padding: 10px;
+.main {
+	text-align: center;
+	padding: 10px;
 }
 
-.nowrap {
-    white-space: nowrap;
+.main-content {
+	display: inline-block;
 }
 
-.prewrap {
-    white-space: pre;
+.title-big {
+	background-color: rgb(61, 61, 61);
+	color: white;
+	padding: 10px 10px;
+	margin: 0;
+	font-size: 1.5em;
+	font-weight: bolder;
 }
 
-.bold {
-    font-weight: bold;
+.data-block {
+	margin-bottom: 10px;
+	text-align: left;
 }
 
-.float-left {
-    float: left;
+.row-title {
+	margin-right: 5px;
 }
 
+.select-language-button-wrapper {
+	text-align: right;
+}
 .select-language-button {
-    float: right;
+	display: inline-block;
+	margin-bottom: 10px;
 }
