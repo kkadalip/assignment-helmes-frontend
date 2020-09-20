@@ -6,7 +6,8 @@
 		"please-enter-data": "Please enter your name and pick the Sectors you are currently involved in.",
 		"name": "Name:",
 		"sectors": "Sectors:",
-		"agree-to-terms": "Agree to terms"
+		"agreed-to-terms": "Agreed to terms",
+		"save": "Save"
 	},
 	"sector": {
 		"manufacturing": "Manufacturing",

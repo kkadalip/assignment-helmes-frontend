@@ -6,7 +6,8 @@
 		"please-enter-data": "Palun sisesta oma nimi ja vali sektorid, millega Sa oled hetkel seotud.",
 		"name": "Nimi:",
 		"sectors": "Sektorid:",
-		"agree-to-terms": "Nõustun tingimustega"
+		"agreed-to-terms": "Nõustun tingimustega",
+		"save": "Salvesta"
 	},
 	"sector": {
 		"manufacturing": "Tootmine",
