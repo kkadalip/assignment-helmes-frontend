@@ -16,6 +16,7 @@ function Page() {
 
 	const apiRoot = 'http://localhost:8090/api/';
 	const urlSectors = apiRoot + 'sectors';
+	const urlSession = apiRoot + 'session';
 	const langSelectItems = [
 		{label: 'English', value: 'en'},
 		{label: 'Eesti', value: 'et'}
@@ -34,6 +35,8 @@ function Page() {
 
 	useEffect(() => {
 		getSectors();
+
+		getSession();
 
 		const savedLanguage = sessionStorage.getItem(keySessionStorageSelectedLanguage) || 'en';
 		changeLanguage(savedLanguage);
@@ -83,6 +86,21 @@ function Page() {
 							setIsLoadingSectors(false);
 							setSectors(data);
 							//console.log("Sectors data is: ", data);
+						}
+				)
+				.catch(err => {
+					console.error("Could not fetch Sectors data ", err);
+				}, [])
+	};
+
+	const getSession = () => {
+		axios.get(urlSession)
+				.then(res => res.data)
+				.then(data => {
+							setUsername(data.username);
+							setSelectedSectors(data.sectors);
+							setAgreedToTerms(data.agreedToTerms);
+							console.log("Session data is: ", data);
 						}
 				)
 				.catch(err => {
