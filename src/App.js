@@ -62,15 +62,19 @@ function Page() {
 	};
 
 	const changeUsername = name => {
-		setUsername(name);
-		sessionStorage.setItem(keySessionStorageUsername, name);
-		//console.log("Changed username to: " + JSON.stringify(name));
+		if (name) {
+			setUsername(name);
+			sessionStorage.setItem(keySessionStorageUsername, name);
+			//console.log("Changed username to: " + JSON.stringify(name));
+		}
 	};
 
 	const changeSelectedSectors = selectedOptions => {
-		setSelectedSectors(selectedOptions);
-		sessionStorage.setItem(keySessionStorageSelectedSectors, JSON.stringify(selectedOptions));
-		//console.log("Changed selected sector ID-s to: " + JSON.stringify(selectedOptions));
+		if (selectedOptions) {
+			setSelectedSectors(selectedOptions);
+			sessionStorage.setItem(keySessionStorageSelectedSectors, JSON.stringify(selectedOptions));
+			//console.log("Changed selected sector ID-s to: " + JSON.stringify(selectedOptions));
+		}
 	};
 
 	const changeAgreedToTerms = checked => {
@@ -97,10 +101,12 @@ function Page() {
 		axios.get(urlSession)
 				.then(res => res.data)
 				.then(data => {
-							setUsername(data.username);
-							setSelectedSectors(data.sectors);
-							setAgreedToTerms(data.agreedToTerms);
-							console.log("Session data is: ", data);
+							if (data) {
+								changeUsername(data.username); //setUsername(data.username);
+								changeSelectedSectors(data.sectors); // setSelectedSectors(data.sectors);
+								changeAgreedToTerms(data.agreedToTerms); // setAgreedToTerms(data.agreedToTerms);
+							}
+							//console.log("Session data is: ", data);
 						}
 				)
 				.catch(err => {
