@@ -20,9 +20,10 @@ function Page() {
 		{label: 'Eesti', value: 'et'}
 	];
 
-	const keyLocalStorageUsername = 'Username';
-	const keyLocalStorageSelectedLanguage = 'SelectedLanguage';
-	const keyLocalStorageAgreedToTerms = 'AgreedToTerms';
+	const keyLocalStorageSelectedLanguage = 'AssignmentSelectedLanguage';
+	const keyLocalStorageUsername = 'AssignmentUsername';
+	const keyLocalStorageSelectedSectors = 'AssignmentSelectedSectors';
+	const keyLocalStorageAgreedToTerms = 'AssignmentAgreedToTerms';
 
 	let [id, setId] = useState(0);
 	let [username, setUsername] = useState("");
@@ -32,13 +33,16 @@ function Page() {
 	let [agreedToTerms, setAgreedToTerms] = useState(false);
 
 	useEffect(() => {
+		getSectors();
+
 		const savedLanguage = localStorage.getItem(keyLocalStorageSelectedLanguage) || 'en';
 		changeLanguage(savedLanguage);
 
 		const savedUsername = localStorage.getItem(keyLocalStorageUsername) || "";
 		changeUsername(savedUsername);
 
-		getSectors();
+		const savedSelectedSectors = JSON.parse(localStorage.getItem(keyLocalStorageSelectedSectors)) || [];
+		changeSelectedSectors(savedSelectedSectors);
 
 		const savedAgreedToTerms = JSON.parse(localStorage.getItem(keyLocalStorageAgreedToTerms)) || false;
 		changeAgreedToTerms(savedAgreedToTerms);
@@ -57,12 +61,19 @@ function Page() {
 	const changeUsername = name => {
 		setUsername(name);
 		localStorage.setItem(keyLocalStorageUsername, name);
+		//console.log("Changed username to: " + JSON.stringify(name));
+	};
+
+	const changeSelectedSectors = selectedOptions => {
+		setSelectedSectors(selectedOptions);
+		localStorage.setItem(keyLocalStorageSelectedSectors, JSON.stringify(selectedOptions));
+		//console.log("Changed selected sector ID-s to: " + JSON.stringify(selectedOptions));
 	};
 
 	const changeAgreedToTerms = checked => {
-		console.log("Change agreed terms to: " + checked);
 		setAgreedToTerms(checked);
-		localStorage.setItem(keyLocalStorageAgreedToTerms, checked);
+		localStorage.setItem(keyLocalStorageAgreedToTerms, JSON.stringify(checked));
+		//console.log("Changed agreed terms to: " + checked);
 	};
 
 	const getSectors = () => {
@@ -71,7 +82,7 @@ function Page() {
 				.then(data => {
 							setIsLoadingSectors(false);
 							setSectors(data);
-							console.log("Sectors data is: ", data);
+							//console.log("Sectors data is: ", data);
 						}
 				)
 				.catch(err => {
@@ -85,10 +96,9 @@ function Page() {
 	};
 
 	const handleChangeSelect = (event) => {
-		event.preventDefault();
+		// event.preventDefault();
 		let selectedOptions = [...event.target.options].filter(o => o.selected).map(o => o.value);
-		setSelectedSectors(selectedOptions);
-		console.log("Selected sector ID-s: " + JSON.stringify(selectedOptions));
+		changeSelectedSectors(selectedOptions);
 	};
 
 	const handleChangeAgreedToTerms = (event) => {
@@ -114,7 +124,7 @@ function Page() {
 
 	const handleSubmit = event => {
 		event.preventDefault()
-		console.log("Selected sectors are " + JSON.stringify(selectedSectors));
+		//console.log("Selected sectors are " + JSON.stringify(selectedSectors));
 		axios.post(apiRoot + 'save', {
 			id: id,
 			username: username,
@@ -122,7 +132,7 @@ function Page() {
 			agreedToTerms: agreedToTerms
 		})
 				.then(function (response) {
-					console.log(response);
+					//console.log(response);
 					alert(t('alert.data-saved'));
 				})
 				.catch(err => {
