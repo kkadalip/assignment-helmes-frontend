@@ -1,7 +1,6 @@
 import React, {Suspense, useEffect, useState} from 'react';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
 import {ProgressSpinner} from 'primereact/progressspinner';
 import {SelectButton} from 'primereact/selectbutton';
 import {Button} from 'primereact/button';
@@ -96,7 +95,6 @@ function Page() {
 	};
 
 	const handleChangeSelect = (event) => {
-		// event.preventDefault();
 		let selectedOptions = [...event.target.options].filter(o => o.selected).map(o => o.value);
 		changeSelectedSectors(selectedOptions);
 	};

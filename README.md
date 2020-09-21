@@ -25,18 +25,13 @@ Frontend code for helmes assignment
 
 ###### UI:
 * PrimeReact <a>https://www.primefaces.org/primereact
-* Primeicons (included with PrimeReact, examples at: https://www.primefaces.org/primeng/#/icons) 
 * reactstrap https://reactstrap.github.io/
 
 ###### Translations:
 * i18next https://www.i18next.com/
-* react-i18next https://react.i18next.com/overview/getting-started
 
 ###### Data fetching (better HTTP requests) and error handling:
 * axios https://github.com/axios/axios
-
-###### Weather icons
-* react-icons-weather https://www.npmjs.com/package/react-icons-weather (based on: https://erikflowers.github.io/weather-icons/)
 
 ##### Useful guides
 * https://reactjs.org/docs/getting-started.html

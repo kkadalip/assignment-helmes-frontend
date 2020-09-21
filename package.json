@@ -1,5 +1,5 @@
 {
-  "name": "assignment-1ot-frontend",
+  "name": "assignment-helmes-frontend",
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
@@ -7,19 +7,17 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.5.2",
+    "classnames": "^2.2.6",
+    "i18next": "^19.7.0",
+    "primereact": "^4.2.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-i18next": "^11.7.2",
     "react-scripts": "3.4.1",
-    "axios": "^0.19.2",
-    "bootstrap": "^4.5.0",
-    "classnames": "^2.2.6",
-    "primeicons": "^4.0.0-rc.2",
-    "primereact": "^4.2.2",
-    "react-i18next": "^11.5.1",
-    "i18next": "^19.4.5",
-    "react-icons-weather": "^1.0.5",
     "react-transition-group": "^4.4.1",
-    "reactstrap": "^8.4.1"
+    "reactstrap": "^8.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
