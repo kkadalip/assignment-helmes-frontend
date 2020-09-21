@@ -10,6 +10,8 @@ import './main.css';
 import axios from "axios/index";
 import i18n from "./translations/i18n"; // <- DO NOT DELETE
 
+axios.defaults.withCredentials = true;
+
 function Page() {
 
 	const apiRoot = 'http://localhost:8090/api/';
@@ -19,12 +21,11 @@ function Page() {
 		{label: 'Eesti', value: 'et'}
 	];
 
-	const keyLocalStorageSelectedLanguage = 'AssignmentSelectedLanguage';
-	const keyLocalStorageUsername = 'AssignmentUsername';
-	const keyLocalStorageSelectedSectors = 'AssignmentSelectedSectors';
-	const keyLocalStorageAgreedToTerms = 'AssignmentAgreedToTerms';
+	const keySessionStorageSelectedLanguage = 'AssignmentSelectedLanguage';
+	const keySessionStorageUsername = 'AssignmentUsername';
+	const keySessionStorageSelectedSectors = 'AssignmentSelectedSectors';
+	const keySessionStorageAgreedToTerms = 'AssignmentAgreedToTerms';
 
-	let [id, setId] = useState(0);
 	let [username, setUsername] = useState("");
 	let [isLoadingSectors, setIsLoadingSectors] = useState(true);
 	let [sectors, setSectors] = useState([]);
@@ -34,16 +35,16 @@ function Page() {
 	useEffect(() => {
 		getSectors();
 
-		const savedLanguage = localStorage.getItem(keyLocalStorageSelectedLanguage) || 'en';
+		const savedLanguage = sessionStorage.getItem(keySessionStorageSelectedLanguage) || 'en';
 		changeLanguage(savedLanguage);
 
-		const savedUsername = localStorage.getItem(keyLocalStorageUsername) || "";
+		const savedUsername = sessionStorage.getItem(keySessionStorageUsername) || "";
 		changeUsername(savedUsername);
 
-		const savedSelectedSectors = JSON.parse(localStorage.getItem(keyLocalStorageSelectedSectors)) || [];
+		const savedSelectedSectors = JSON.parse(sessionStorage.getItem(keySessionStorageSelectedSectors)) || [];
 		changeSelectedSectors(savedSelectedSectors);
 
-		const savedAgreedToTerms = JSON.parse(localStorage.getItem(keyLocalStorageAgreedToTerms)) || false;
+		const savedAgreedToTerms = JSON.parse(sessionStorage.getItem(keySessionStorageAgreedToTerms)) || false;
 		changeAgreedToTerms(savedAgreedToTerms);
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,26 +53,26 @@ function Page() {
 	const {t, i18n} = useTranslation();
 	const changeLanguage = lng => {
 		i18n.changeLanguage(lng).then(() => {
-					localStorage.setItem(keyLocalStorageSelectedLanguage, lng);
+					sessionStorage.setItem(keySessionStorageSelectedLanguage, lng);
 				}
 		);
 	};
 
 	const changeUsername = name => {
 		setUsername(name);
-		localStorage.setItem(keyLocalStorageUsername, name);
+		sessionStorage.setItem(keySessionStorageUsername, name);
 		//console.log("Changed username to: " + JSON.stringify(name));
 	};
 
 	const changeSelectedSectors = selectedOptions => {
 		setSelectedSectors(selectedOptions);
-		localStorage.setItem(keyLocalStorageSelectedSectors, JSON.stringify(selectedOptions));
+		sessionStorage.setItem(keySessionStorageSelectedSectors, JSON.stringify(selectedOptions));
 		//console.log("Changed selected sector ID-s to: " + JSON.stringify(selectedOptions));
 	};
 
 	const changeAgreedToTerms = checked => {
 		setAgreedToTerms(checked);
-		localStorage.setItem(keyLocalStorageAgreedToTerms, JSON.stringify(checked));
+		sessionStorage.setItem(keySessionStorageAgreedToTerms, JSON.stringify(checked));
 		//console.log("Changed agreed terms to: " + checked);
 	};
 
@@ -90,7 +91,7 @@ function Page() {
 	};
 
 	const handleChangeUsername = (event) => {
-		let value = event.target.value.trim();
+		let value = event.target.value;
 		changeUsername(value);
 	};
 
@@ -124,8 +125,7 @@ function Page() {
 		event.preventDefault()
 		//console.log("Selected sectors are " + JSON.stringify(selectedSectors));
 		axios.post(apiRoot + 'save', {
-			id: id,
-			username: username,
+			username: username.trim(),
 			sectors: selectedSectors,
 			agreedToTerms: agreedToTerms
 		})
