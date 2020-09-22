@@ -1,5 +1,4 @@
 # Assignment for Helmes frontend
-Frontend code for helmes assignment
 
 ## 1. Navigate to project root
     $ cd C:\Users\username\workspace\assignment-helmes-frontend
@@ -23,14 +22,14 @@ Frontend code for helmes assignment
 * ReactJS https://github.com/facebook/create-react-app
 * Docker https://docs.docker.com/docker-for-windows/ and https://hub.docker.com/_/node
 
-###### UI:
+##### UI:
 * PrimeReact <a>https://www.primefaces.org/primereact
 * reactstrap https://reactstrap.github.io/
 
-###### Translations:
+##### Translations:
 * i18next https://www.i18next.com/
 
-###### Data fetching (better HTTP requests) and error handling:
+##### Data fetching (better HTTP requests) and error handling:
 * axios https://github.com/axios/axios
 
 ##### Useful guides
